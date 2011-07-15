@@ -83,6 +83,14 @@ function gfi_truncate( $str, $length=10 ) {
     return $res;
 }
 
+//	add "Settings" link to plugin page
+add_filter('plugin_action_links_' . plugin_basename(__FILE__) , 'gfi_action_links');
+function gfi_action_links($links) {
+	$gif_settings_link = sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=genesis' ), __('Settings') );
+	array_unshift($links, $gif_settings_link);
+	return $links;
+}
+
 add_action( 'genesis_init', 'gfi_init', 15 );
 /** Loads required files when needed */
 function gfi_init() {
