@@ -5,7 +5,6 @@ Donate link: http://www.wpsmith.net/donation
 Tags: feature images, post thumbnails, genesis, studiopress
 Requires at least: 3.0
 Tested up to: 3.2
-Version: 0.1b
 
 This plugin sets a default image for post thumbnails for the Genesis framework.
 
