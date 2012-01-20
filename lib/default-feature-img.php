@@ -12,25 +12,13 @@ function genesis_featimg_defaults($defaults) {
 	return $defaults;
 }
 
-add_action( 'admin_menu', 'gfi_theme_settings_init', 15 );
-/**
- * This is a necessary go-between to get our scripts and boxes loaded
- * on the theme settings page only, and not the rest of the admin
- */
-function gfi_theme_settings_init() {
-    global $_genesis_theme_settings_pagehook;
-
-    add_action( 'load-' . $_genesis_theme_settings_pagehook, 'gfi_theme_settings_boxes' );
-} 
-
+add_action( 'genesis_theme_settings_metaboxes', 'gfi_theme_settings_boxes' );
 /**
  * Adds a Genesis Featured Images Metabox to Genesis > Theme Settings
  * 
  */
-function gfi_theme_settings_boxes() {
-    global $_genesis_theme_settings_pagehook;
-
-    add_meta_box('genesis-theme-settings-featimg', __('Featured Image Settings', 'gfi'), 'genesis_theme_settings_featimg_box', $_genesis_theme_settings_pagehook, 'column2');
+function gfi_theme_settings_boxes( $pagehook ) {
+    add_meta_box('genesis-theme-settings-featimg', __('Featured Image Settings', 'gfi'), 'genesis_theme_settings_featimg_box', $pagehook, 'main');
 }
 
 function genesis_theme_settings_featimg_box() { ?>
