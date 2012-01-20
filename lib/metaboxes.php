@@ -43,7 +43,7 @@ function gfi_sample_metaboxes( $meta_boxes ) {
 			),
 			array(
 				'name' => 'Featured Image Select',
-				'desc' => 'field description (optional)',
+				'desc' => 'Select a Featured Image Size',
 				'id' => $prefix . 'custom_feat_img',
 				'type' => 'select',
 				'options' => $sizes,
