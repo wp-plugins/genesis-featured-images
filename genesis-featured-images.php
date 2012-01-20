@@ -3,7 +3,7 @@
 Plugin Name: Genesis Featured Images
 Plugin URI: http://www.wpsmith.net/genesis-featured-images
 Description: The first generation of this plugin will set a default image for post thumbnails for the Genesis framework.
-Version: 0.2 beta
+Version: 0.4
 Author: Travis Smith
 Author URI: http://www.wpsmith.net/
 License: GPLv2
@@ -24,6 +24,7 @@ License: GPLv2
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+define( 'GFI_DOMAIN' , 'genesis-featured-images' );
 define( 'GFI_PLUGIN_DIR', dirname( __FILE__ ) );
 define( "GFI_URL" , WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)) );
 
@@ -44,7 +45,7 @@ register_activation_hook( __FILE__, 'gfi_activation_check' );
  */
 function gfi_activation_check() {
 
-    $latest = '1.7';
+    $latest = '1.8';
 
     $theme_info = get_theme_data( TEMPLATEPATH . '/style.css' );
 
@@ -96,8 +97,62 @@ add_action( 'genesis_init', 'gfi_init', 15 );
 function gfi_init() {
 
 	require_once(GFI_PLUGIN_DIR . '/lib/default-feature-img.php');
+	require_once(GFI_PLUGIN_DIR . '/lib/metaboxes.php');
 
 }
+
+
+add_action( 'get_header', 'gfi_remove_do_post_image' );
+/**
+ * Replace some genesis_* functions hooked into somewhere for some gfi_* functions
+ * of the same suffix, at the same hook and priority
+ *
+ * @author Gary Jones
+ *
+ * @global array $wp_filter
+ */
+function gfi_remove_do_post_image() {
+ 
+    global $wp_filter;
+ 
+    // List of genesis_* functions to be replaced with gfi_* functions.
+    // We save some bytes and add the ubiquitous 'genesis_' later on.
+    $functions = array(
+        'do_post_image',
+    );
+ 
+    // Loop through all hooks (yes, stored under the $wp_filter global)
+    foreach ( $wp_filter as $hook => $priority)  {
+ 
+        // Loop through our array of functions for each hook
+        foreach( $functions as $function) {
+ 
+            // has_action returns int for the priority
+            if ( $priority = has_action( $hook, 'genesis_' . $function ) ) {
+ 
+                // If there's a function hooked in, remove the genesis_* function
+                // from whichever hook we're looping through at the time.
+                remove_action( $hook, 'genesis_' . $function, $priority );
+ 
+                // Add a replacement function in at an earlier time.
+                add_action( $hook, 'gfi_' . $function, 5 );
+            }
+        }
+    }
+}
+
+//add_action( 'genesis_post_content' , 'gfi_do_post_image' );
+function gfi_do_post_image() {
+	global $prefix;
+	if ( ! is_singular() && genesis_get_option( 'content_archive_thumbnail' ) ) {
+		if ( genesis_get_custom_field( $prefix . 'custom_feat_img' ) )
+			$img = genesis_get_image( array( 'format' => 'html', 'size' => genesis_get_custom_field( $prefix . 'custom_feat_img' ), 'attr' => array( 'class' => 'alignleft post-image' ) ) );
+		else
+			$img = genesis_get_image( array( 'format' => 'html', 'size' => genesis_get_option( 'image_size' ), 'attr' => array( 'class' => 'alignleft post-image' ) ) );
+		printf( '<a href="%s" title="%s">%s</a>', get_permalink(), the_title_attribute( 'echo=0' ), $img );
+	}
+}
+
 
 
 ?>
