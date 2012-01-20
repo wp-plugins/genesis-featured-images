@@ -10,7 +10,7 @@ This plugin sets a default image for post thumbnails for the Genesis framework.
 
 == Description ==
 
-Genesis Featured Images creates a option box to enable a default image for post thumbnails and/or featured images. These default images will only appear any time a post, page or any custom post type does not have a featured image, or an image inside the post. So for those who write a lot of posts and want one image for the majority of your posts, this plugin works perfectly! Genesis Featured Images filters genesis_get_image() so anywhere you utilize genesis_get_image(), this plugin will provide a fallback option.  Genesis Featured Images uses the WordPress Image Uploader and Library to upload the image to ensure that the proper thumbnails are created.
+Genesis Featured Images creates a option box to enable a default image for post thumbnails and/or featured images and a meta box to set a custom size for the featured image to be displayed. These default images will only appear any time a post, page or any custom post type does not have a featured image, or an image inside the post. So for those who write a lot of posts and want one image for the majority of your posts, this plugin works perfectly! Genesis Featured Images filters genesis_get_image() so anywhere you utilize genesis_get_image(), this plugin will provide a fallback option.  Genesis Featured Images uses the WordPress Image Uploader and Library to upload the image to ensure that the proper thumbnails are created.
 
 IMPORTANT: 
 **You must have [Genesis 1.8](http://wpsmith.net/go/genesis "Purchase Genesis") installed. Click [here](http://wpsmith.net/go/genesis "Purchase Genesis") to purchase [Genesis](http://wpsmith.net/go/genesis "Purchase Genesis")**
@@ -35,10 +35,12 @@ Yes. Here are some things that I want to eventually include:
 
 1. Genesis Theme Settings Metabox
 
+1. Inpost Settings Metabox
+
 == Changelog ==
 
 = 0.4 =
-* Switched to Genesis 1.8
+* Switched to Genesis 1.8 support only (not backwards compatible)
 * Added ability to set Featured Image Size on a per post basis
 
 = 0.1-0.3 =
