@@ -63,8 +63,8 @@ function get_attachment_id_from_url ($image_url) {
 
 	global $wpdb;
 	
-	$query = "SELECT ID FROM {$wpdb->posts} WHERE guid='$image_url'";
-	$id = $wpdb->get_var( $wpdb->prepare( $query ) );
+	$query = "SELECT ID FROM {$wpdb->posts} WHERE guid='%s'";
+	$id = $wpdb->get_var( $wpdb->prepare( $query, $image_url ) );
 	
 	return $id;
 
